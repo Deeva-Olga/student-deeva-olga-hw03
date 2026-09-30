@@ -1,0 +1,105 @@
+                                                                                       QUERY PLAN                                                                                       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=11705.48..11705.50 rows=5 width=45) (actual time=54.757..57.311 rows=5 loops=1)
+   Sort Key: (sum(orders_partitioned.amount)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3707
+   ->  Finalize GroupAggregate  (cost=11704.10..11705.43 rows=5 width=45) (actual time=54.734..57.293 rows=5 loops=1)
+         Group Key: orders_partitioned.region
+         Buffers: shared hit=3704
+         ->  Gather Merge  (cost=11704.10..11705.26 rows=10 width=45) (actual time=54.727..57.281 rows=15 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               Buffers: shared hit=3704
+               ->  Sort  (cost=10704.07..10704.09 rows=5 width=45) (actual time=51.355..51.360 rows=5 loops=3)
+                     Sort Key: orders_partitioned.region
+                     Sort Method: quicksort  Memory: 25kB
+                     Buffers: shared hit=3704
+                     Worker 0:  Sort Method: quicksort  Memory: 25kB
+                     Worker 1:  Sort Method: quicksort  Memory: 25kB
+                     ->  Partial HashAggregate  (cost=10703.95..10704.01 rows=5 width=45) (actual time=51.325..51.331 rows=5 loops=3)
+                           Group Key: orders_partitioned.region
+                           Batches: 1  Memory Usage: 24kB
+                           Buffers: shared hit=3688
+                           Worker 0:  Batches: 1  Memory Usage: 24kB
+                           Worker 1:  Batches: 1  Memory Usage: 24kB
+                           ->  Parallel Append  (cost=0.00..9141.44 rows=208335 width=11) (actual time=0.010..27.204 rows=166667 loops=3)
+                                 Buffers: shared hit=3688
+                                 ->  Parallel Seq Scan on orders_p_2022_10 orders_partitioned_10  (cost=0.00..347.57 rows=12638 width=11) (actual time=0.007..2.883 rows=21485 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=158
+                                 ->  Parallel Seq Scan on orders_p_2023_10 orders_partitioned_22  (cost=0.00..347.45 rows=12630 width=11) (actual time=0.005..2.581 rows=21471 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=158
+                                 ->  Parallel Seq Scan on orders_p_2023_01 orders_partitioned_13  (cost=0.00..345.00 rows=12534 width=11) (actual time=0.008..3.140 rows=21307 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2023_12 orders_partitioned_24  (cost=0.00..344.91 rows=12528 width=11) (actual time=0.023..2.190 rows=21297 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2022_01 orders_partitioned_1  (cost=0.00..344.85 rows=12524 width=11) (actual time=0.007..1.933 rows=21290 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2022_07 orders_partitioned_7  (cost=0.00..344.80 rows=12520 width=11) (actual time=0.010..3.851 rows=21284 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2023_05 orders_partitioned_17  (cost=0.00..344.38 rows=12492 width=11) (actual time=0.006..1.958 rows=21236 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2023_08 orders_partitioned_20  (cost=0.00..344.34 rows=12489 width=11) (actual time=0.007..3.388 rows=21232 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2023_07 orders_partitioned_19  (cost=0.00..344.22 rows=12481 width=11) (actual time=0.007..1.804 rows=21218 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=157
+                                 ->  Parallel Seq Scan on orders_p_2022_05 orders_partitioned_5  (cost=0.00..343.16 rows=12478 width=11) (actual time=0.006..1.769 rows=21212 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=156
+                                 ->  Parallel Seq Scan on orders_p_2022_12 orders_partitioned_12  (cost=0.00..343.15 rows=12476 width=11) (actual time=0.009..3.031 rows=21210 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=156
+                                 ->  Parallel Seq Scan on orders_p_2022_03 orders_partitioned_3  (cost=0.00..342.41 rows=12427 width=11) (actual time=0.006..1.719 rows=21126 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=156
+                                 ->  Parallel Seq Scan on orders_p_2022_08 orders_partitioned_8  (cost=0.00..340.49 rows=12366 width=11) (actual time=0.026..1.744 rows=21022 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=155
+                                 ->  Parallel Seq Scan on orders_p_2023_03 orders_partitioned_15  (cost=0.00..338.16 rows=12278 width=11) (actual time=0.005..0.989 rows=6957 loops=3)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=154
+                                 ->  Parallel Seq Scan on orders_p_2023_04 orders_partitioned_16  (cost=0.00..337.82 rows=12255 width=11) (actual time=0.005..0.839 rows=10416 loops=2)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=154
+                                 ->  Parallel Seq Scan on orders_p_2023_09 orders_partitioned_21  (cost=0.00..336.56 rows=12238 width=11) (actual time=0.003..1.698 rows=20804 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=153
+                                 ->  Parallel Seq Scan on orders_p_2022_04 orders_partitioned_4  (cost=0.00..335.61 rows=12174 width=11) (actual time=0.003..1.832 rows=20696 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=153
+                                 ->  Parallel Seq Scan on orders_p_2023_06 orders_partitioned_18  (cost=0.00..334.28 rows=12152 width=11) (actual time=0.004..1.774 rows=20658 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=152
+                                 ->  Parallel Seq Scan on orders_p_2022_11 orders_partitioned_11  (cost=0.00..332.14 rows=12076 width=11) (actual time=0.004..1.737 rows=20529 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=151
+                                 ->  Parallel Seq Scan on orders_p_2023_11 orders_partitioned_23  (cost=0.00..331.26 rows=12018 width=11) (actual time=0.003..2.079 rows=20430 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=151
+                                 ->  Parallel Seq Scan on orders_p_2022_06 orders_partitioned_6  (cost=0.00..329.17 rows=11945 width=11) (actual time=0.003..1.820 rows=20306 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=150
+                                 ->  Parallel Seq Scan on orders_p_2022_09 orders_partitioned_9  (cost=0.00..329.16 rows=11944 width=11) (actual time=0.004..1.791 rows=20305 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=150
+                                 ->  Parallel Seq Scan on orders_p_2023_02 orders_partitioned_14  (cost=0.00..311.45 rows=11296 width=11) (actual time=0.004..4.621 rows=19204 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=142
+                                 ->  Parallel Seq Scan on orders_p_2022_02 orders_partitioned_2  (cost=0.00..307.41 rows=11161 width=11) (actual time=0.018..1.935 rows=18973 loops=1)
+                                       Filter: ((order_date >= '2022-01-01'::date) AND (order_date <= '2023-12-31'::date))
+                                       Buffers: shared hit=140
+ Planning:
+   Buffers: shared hit=1508
+ Planning Time: 1.876 ms
+ Execution Time: 57.472 ms
+(101 rows)
+

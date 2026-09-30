@@ -1,0 +1,6 @@
+ check_name  | diff_rows 
+-------------+-----------
+ narrow_diff |         0
+ wide_diff   |         0
+(2 rows)
+

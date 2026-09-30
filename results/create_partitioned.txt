@@ -1,0 +1,11 @@
+DROP TABLE
+CREATE TABLE
+DO
+CREATE INDEX
+INSERT 0 500000
+ANALYZE
+ source_rows | partitioned_rows 
+-------------+------------------
+      500000 |           500000
+(1 row)
+

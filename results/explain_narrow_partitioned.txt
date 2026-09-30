@@ -1,0 +1,19 @@
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=616.93..616.94 rows=5 width=45) (actual time=4.286..4.287 rows=5 loops=1)
+   Sort Key: (sum(orders_partitioned.amount)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=155
+   ->  HashAggregate  (cost=616.80..616.87 rows=5 width=45) (actual time=4.268..4.269 rows=5 loops=1)
+         Group Key: orders_partitioned.region
+         Batches: 1  Memory Usage: 24kB
+         Buffers: shared hit=152
+         ->  Seq Scan on orders_p_2023_06 orders_partitioned  (cost=0.00..461.87 rows=20658 width=11) (actual time=0.005..1.951 rows=20658 loops=1)
+               Filter: ((order_date >= '2023-06-01'::date) AND (order_date <= '2023-06-30'::date))
+               Buffers: shared hit=152
+ Planning:
+   Buffers: shared hit=328
+ Planning Time: 0.677 ms
+ Execution Time: 4.333 ms
+(15 rows)
+

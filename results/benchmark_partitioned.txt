@@ -1,0 +1,14 @@
+narrow run 1: 3.72 ms
+narrow run 2: 3.52 ms
+narrow run 3: 3.49 ms
+narrow run 4: 3.60 ms
+narrow run 5: 3.23 ms
+  -> Медиана narrow: 3.52 ms
+
+wide run 1: 38.78 ms
+wide run 2: 38.65 ms
+wide run 3: 38.10 ms
+wide run 4: 37.78 ms
+wide run 5: 37.62 ms
+  -> Медиана wide: 38.10 ms
+

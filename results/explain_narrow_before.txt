@@ -1,0 +1,35 @@
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=7867.01..7867.02 rows=5 width=45) (actual time=13.735..15.745 rows=5 loops=1)
+   Sort Key: (sum(amount)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3696
+   ->  Finalize GroupAggregate  (cost=7865.62..7866.95 rows=5 width=45) (actual time=13.708..15.725 rows=5 loops=1)
+         Group Key: region
+         Buffers: shared hit=3693
+         ->  Gather Merge  (cost=7865.62..7866.79 rows=10 width=45) (actual time=13.699..15.710 rows=15 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               Buffers: shared hit=3693
+               ->  Sort  (cost=6865.60..6865.61 rows=5 width=45) (actual time=10.312..10.313 rows=5 loops=3)
+                     Sort Key: region
+                     Sort Method: quicksort  Memory: 25kB
+                     Buffers: shared hit=3693
+                     Worker 0:  Sort Method: quicksort  Memory: 25kB
+                     Worker 1:  Sort Method: quicksort  Memory: 25kB
+                     ->  Partial HashAggregate  (cost=6865.48..6865.54 rows=5 width=45) (actual time=10.261..10.264 rows=5 loops=3)
+                           Group Key: region
+                           Batches: 1  Memory Usage: 24kB
+                           Buffers: shared hit=3677
+                           Worker 0:  Batches: 1  Memory Usage: 24kB
+                           Worker 1:  Batches: 1  Memory Usage: 24kB
+                           ->  Parallel Seq Scan on orders  (cost=0.00..6802.00 rows=8464 width=11) (actual time=0.014..8.998 rows=6886 loops=3)
+                                 Filter: ((order_date >= '2023-06-01'::date) AND (order_date <= '2023-06-30'::date))
+                                 Rows Removed by Filter: 159781
+                                 Buffers: shared hit=3677
+ Planning:
+   Buffers: shared hit=129 dirtied=1
+ Planning Time: 0.792 ms
+ Execution Time: 15.852 ms
+(31 rows)
+

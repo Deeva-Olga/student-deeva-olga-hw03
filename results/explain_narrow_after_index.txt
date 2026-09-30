@@ -1,0 +1,23 @@
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=4429.04..4429.06 rows=5 width=45) (actual time=11.398..11.400 rows=5 loops=1)
+   Sort Key: (sum(amount)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3670 read=21
+   ->  HashAggregate  (cost=4428.92..4428.99 rows=5 width=45) (actual time=11.373..11.374 rows=5 loops=1)
+         Group Key: region
+         Batches: 1  Memory Usage: 24kB
+         Buffers: shared hit=3667 read=21
+         ->  Bitmap Heap Scan on orders  (cost=287.84..4274.23 rows=20626 width=11) (actual time=1.467..8.068 rows=20658 loops=1)
+               Recheck Cond: ((order_date >= '2023-06-01'::date) AND (order_date <= '2023-06-30'::date))
+               Heap Blocks: exact=3667
+               Buffers: shared hit=3667 read=21
+               ->  Bitmap Index Scan on idx_orders_order_date  (cost=0.00..282.68 rows=20626 width=0) (actual time=1.141..1.141 rows=20658 loops=1)
+                     Index Cond: ((order_date >= '2023-06-01'::date) AND (order_date <= '2023-06-30'::date))
+                     Buffers: shared read=21
+ Planning:
+   Buffers: shared hit=156 read=1
+ Planning Time: 0.366 ms
+ Execution Time: 11.559 ms
+(19 rows)
+
